@@ -1,7 +1,7 @@
 import os
 
-dirPath = r'D:\Project\Python\PyWsCB6652410007'
-res = []
+# dirPath = r'D:\Project\Python\PyWsCB6652410007'
+# res = []
 
 def inputData():
     name = input("ป้อนชื่อ-สกุลนักเรียน: ")
@@ -14,51 +14,90 @@ def inputData():
 def checkPassingGrad(mid, final, point):
     result = int(mid) + int(final) + int(point)
     return result
-
+    
 
 def isTextFile(fileName):
     return fileName.lower().endswith(".txt")
 
 def createSubject():
     print("สร้างไฟล์วิชาใหม่เพื่อเพิ่มข้อมูล")
-    inputSubject = input("ป้อนชื่อไฟล์วิชาเพื่อเก็บข้อมูลคะแนน(xxxxx.txt): ")
-    if isTextFile(inputSubject):
-        with open(inputSubject,"w",encoding="utf-8") as newFile:
+    subjectName = input("ป้อนชื่อไฟล์วิชาเพื่อเก็บข้อมูลคะแนน(xxxxx.txt): ").strip()
+    while True:
+        if not ".txt" in subjectName:
+            print("ชื่อ-นามสกุลไฟล์ไม่ถูกต้องกรุณาป้อนใหม่")
+            subjectName = input("ป้อนชื่อไฟล์วิชาเพื่อเก็บข้อมูลคะแนน(xxxxx.txt): ").strip()
+        elif ".txt" in subjectName:
+            newFile = open(subjectName,"w", encoding="utf-8")
             name, mid, final, point = inputData()
-            newFile.write(f"ชื่อ: {name}\nคะแนนกลางภาค: {mid}\nคะแนนปลายภาค: {final}\nคะแนนเก็บ: {point}\n")
-            totalScore = checkPassingGrad(mid, final, point)
-            newFile.write(f"คะแนนรวม {checkPassingGrad(mid, final, point)}\n")
-            result = "ผลของคะแนนรวมว่าผ่าน\n" if totalScore > 50 else "ผลของคะแนนรวมว่าไม่ผ่าน\n"
-            newFile.write(result)
-        print("สร้างไฟล์ใหม่และเพิ่มข้อมูลลงไฟล์เรียบร้อยแล้ว.")
-    else:
-        print("ชื่อ-นามสกุลไฟล์ไม่ถูกต้องกรุณาป้อนใหม่")
+            result = checkPassingGrad(mid, final, point)
+            if result > 50:
+                newFile.write(f"ชื่อ: {name}\nคะแนนกลางภาค: {mid}\nคะแนนปลายภาค: {final}\nคะแนนเก็บ: {point}\nคะแนนรวม {result}\nผลของคะแนนรวมว่าผ่าน\n\n")
+                newFile.close()
+                print("สร้างไฟล์ใหม่และเพิ่มข้อมูลลงไฟล์เรียบร้อยแล้ว")
+                break
+            else:
+                newFile.write(f"ชื่อ: {name}\nคะแนนกลางภาค: {mid}\nคะแนนปลายภาค: {final}\nคะแนนเก็บ: {point}\nคะแนนรวม {result}\nผลของคะแนนรวมว่าไม่ผ่าน\n\n")
+                newFile.close()
+                print("สร้างไฟล์ใหม่และเพิ่มข้อมูลลงไฟล์เรียบร้อยแล้ว")
+                break
 
 def addData():
     print("เลือกวิชาและเพิ่มข้อมูลต่อท้ายไฟล์")
-    for filePath in os.listdir(dirPath):
-        if os.path.isfile(os.path.join(dirPath,filePath)) and filePath.lower().endswith('.txt'):
-            res.append(filePath)
-    if not res:
+    fileName = os.listdir()
+    if not fileName:
         print("ไม่มีไฟล์ใดๆอยู่เลย")
-    
     else:
-        for file in res:
-            print(file)
-        selectedFile = input("เลือกไฟล์โดยการป้อนชื่อไฟล์:").strip()
-        inputSubject = os.path.join(dirPath, selectedFile)
-        if inputSubject is not None and isTextFile(inputSubject):
-            with open(inputSubject, "a", encoding="utf-8") as newFile:
-                name, mid, final, point = inputData()
-                newFile.write(f"ชื่อ: {name}\nคะแนนกลางภาค: {mid}\nคะแนนปลายภาค: {final}\nคะแนนเก็บ: {point}\n")
-                totalScore = checkPassingGrad(mid, final, point)
-                newFile.write(f"คะแนนรวม {checkPassingGrad(mid, final, point)}\n")
-                result = "ผลของคะแนนรวมว่าผ่าน\n" if totalScore > 50 else "ผลของคะแนนรวมว่าไม่ผ่าน\n"
-                newFile.write(result)
-            print("เพิ่มข้อมูลต่อท้ายไฟล์เรียบร้อยแล้ว.")
+        for file in fileName:
+            if file.endswith(".txt"):
+                print(file)
+        select = input("เลือกไฟล์โดยการป้อนชื่อไฟล์: ").strip()
+        if select not in fileName:
+            print("คุณพิมพ์ชื่อไฟล์ผิด หรือ นามสกุลไฟล์ผิด")
         else:
-            print("ไม่พบไฟล์ที่ตรงกับชื่อที่ระบุ")
+            addFile = open(select,"a", encoding="utf-8")
+            name, mid, final, point = inputData()
+            result = checkPassingGrad(mid, final, point)
+            if result > 50:
+                addFile.write(f"ชื่อ: {name}\nคะแนนกลางภาค: {mid}\nคะแนนปลายภาค: {final}\nคะแนนเก็บ: {point}\nคะแนนรวม {result}\nผลของคะแนนรวมว่าผ่าน\n\n")
+                addFile.close()
+                print("เพิ่มข้อมูลต่อท้ายไฟล์เรียบร้อยแล้ว")
+            else:
+                addFile.write(f"ชื่อ: {name}\nคะแนนกลางภาค: {mid}\nคะแนนปลายภาค: {final}\nคะแนนเก็บ: {point}\nคะแนนรวม {result}\nผลของคะแนนรวมว่าไม่ผ่าน\n\n")
+                addFile.close()
+                print("เพิ่มข้อมูลต่อท้ายไฟล์เรียบร้อยแล้ว")
 
+def readData():
+    print("อ่านข้อมูลในไฟล์")
+    fileName = os.listdir()
+    if not fileName:
+        print("ไม่มีไฟล์ใดๆอยู่เลย")
+    else:
+        for file in fileName:
+            if file.endswith(".txt"):
+                print(file)
+        select = input("เลือกไฟล์โดยการป้อนชื่อไฟล์: ").strip()
+        if select not in fileName:
+            print("คุณพิมพ์ชื่อไฟล์ผิด หรือ นามสกุลไฟล์ผิด")
+        else:
+            data = open(select,"r", encoding="utf-8")
+            rData = data.read()
+            print(rData)
+
+def removeData():
+    print("เลือกวิชาและลบไฟล์")
+    fileName = os.listdir()
+    if not fileName:
+        print("ไม่มีไฟล์ใดๆอยู่เลย")
+    else:
+        for file in fileName:
+            if file.endswith(".txt"):
+                print(file)
+        select = input("เลือกไฟล์โดยการป้อนชื่อไฟล์: ").strip()
+        if select not in fileName:
+            print("คุณพิมพ์ชื่อไฟล์ผิด หรือ นามสกุลไฟล์ผิด")
+        elif select in fileName:
+            os.remove(select)
+            print("ลบไฟล์เรียบร้อย")
 
 def mainMenu():
     while True:
@@ -69,21 +108,26 @@ def mainMenu():
         print("4. เลือกวิชาและลบไฟล์ ")
         print("0. จบการทํางาน")
         try:
-            userInput = int(input("เลือกเมนู: "))
-            if userInput == 1:
+            userInput = input("เลือกเมนู: ")
+            if userInput == "1":
                 createSubject()
-            elif userInput == 2:
+                break
+            elif userInput == "2":
                 addData()
-            elif userInput == 3:
-                pass
-            elif userInput == 4:
-                pass
-            elif userInput == 0:
+                break
+            elif userInput == "3":
+                readData()
+                break
+            elif userInput == "4":
+                removeData()
+                break
+            elif userInput == "0":
                 print("จบการทํางาน")
                 break
             else:
                 print("กรุณาเลือกเมนู 1, 2, 3, 4 หรือ 0 เท่านั้น")
-
+                break
         except ValueError:
-            print("ป้อนค่าไม่ถูกต้อง กรุณาป้อนตัวเลขเท่านั้น.")
+            print("กรุณาป้อนตัวเลขด้วยครับ")
+            break
 mainMenu()
