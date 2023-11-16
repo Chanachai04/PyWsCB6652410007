@@ -1,8 +1,4 @@
 import os
-
-# dirPath = r'D:\Project\Python\PyWsCB6652410007'
-# res = []
-
 def inputData():
     name = input("ป้อนชื่อ-สกุลนักเรียน: ")
     mid = input("ป้อนคะแนนกลางภาค: ")
@@ -10,12 +6,10 @@ def inputData():
     point = input("ป้อนคะแนนเก็บ: ")
     return name, mid, final, point
 
-
 def checkPassingGrad(mid, final, point):
     result = int(mid) + int(final) + int(point)
     return result
     
-
 def isTextFile(fileName):
     return fileName.lower().endswith(".txt")
 
