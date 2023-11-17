@@ -59,7 +59,7 @@ def addData():
 
 def readData():
     fileName = os.listdir()
-    if not ".txt" in fileName:
+    if not fileName:
         print("ไม่มีไฟล์ใดๆอยู่เลย")
     else:
         for file in fileName:
