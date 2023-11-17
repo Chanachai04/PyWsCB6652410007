@@ -4,37 +4,33 @@ def inputData():
     mid = input("ป้อนคะแนนกลางภาค: ")
     final = input("ป้อนคะแนนปลายภาค: ")
     point = input("ป้อนคะแนนเก็บ: ")
-    return name, mid, final, point
-
-def checkPassingGrad(mid, final, point):
     result = int(mid) + int(final) + int(point)
-    return result
+    return name, mid, final, point,result
+
+# def checkPassingGrad(mid, final, point):
+#     return result
 
 def createSubject():
     print("สร้างไฟล์วิชาใหม่เพื่อเพิ่มข้อมูล")
     subjectName = input("ป้อนชื่อไฟล์วิชาเพื่อเก็บข้อมูลคะแนน(xxxxx.txt): ").strip()
-    while True:
-        if not ".txt" in subjectName:
-            print("ชื่อ-นามสกุลไฟล์ไม่ถูกต้องกรุณาป้อนใหม่")
-            subjectName = input("ป้อนชื่อไฟล์วิชาเพื่อเก็บข้อมูลคะแนน(xxxxx.txt): ").strip()
-        elif ".txt" in subjectName:
-            newFile = open(subjectName,"w", encoding="utf-8")
-            name, mid, final, point = inputData()
-            result = checkPassingGrad(mid, final, point)
-            if result > 50:
-                newFile.write(f"ชื่อ: {name}\nคะแนนกลางภาค: {mid}\nคะแนนปลายภาค: {final}\nคะแนนเก็บ: {point}\nคะแนนรวม {result}\nผลของคะแนนรวมว่าผ่าน\n\n")
-                newFile.close()
-                print("สร้างไฟล์ใหม่และเพิ่มข้อมูลลงไฟล์เรียบร้อยแล้ว")
-                break
-            else:
-                newFile.write(f"ชื่อ: {name}\nคะแนนกลางภาค: {mid}\nคะแนนปลายภาค: {final}\nคะแนนเก็บ: {point}\nคะแนนรวม {result}\nผลของคะแนนรวมว่าไม่ผ่าน\n\n")
-                newFile.close()
-                print("สร้างไฟล์ใหม่และเพิ่มข้อมูลลงไฟล์เรียบร้อยแล้ว")
-                break
+    if not ".txt" in subjectName:
+        print("ชื่อ-นามสกุลไฟล์ไม่ถูกต้องกรุณาป้อนใหม่")
+    else:
+        newFile = open(subjectName,"w", encoding="utf-8")
+        name, mid, final, point, result = inputData()
+        
+        if result > 50:
+            newFile.write(f"ชื่อ: {name}\nคะแนนกลางภาค: {mid}\nคะแนนปลายภาค: {final}\nคะแนนเก็บ: {point}\nคะแนนรวม {result}\nผลของคะแนนรวมว่าผ่าน\n\n")
+            newFile.close()
+            print("สร้างไฟล์ใหม่และเพิ่มข้อมูลลงไฟล์เรียบร้อยแล้ว")
+        else:
+            newFile.write(f"ชื่อ: {name}\nคะแนนกลางภาค: {mid}\nคะแนนปลายภาค: {final}\nคะแนนเก็บ: {point}\nคะแนนรวม {result}\nผลของคะแนนรวมว่าไม่ผ่าน\n\n")
+            newFile.close()
+            print("สร้างไฟล์ใหม่และเพิ่มข้อมูลลงไฟล์เรียบร้อยแล้ว")
 
 def addData():
     fileName = os.listdir()
-    if not ".txt" in fileName:
+    if not  fileName:
         print("ไม่มีไฟล์ใดๆอยู่เลย")
     else:
         for file in fileName:
@@ -46,8 +42,8 @@ def addData():
             print("คุณพิมพ์ชื่อไฟล์ผิด หรือ นามสกุลไฟล์ผิด")
         else:
             addFile = open(select,"a", encoding="utf-8")
-            name, mid, final, point = inputData()
-            result = checkPassingGrad(mid, final, point)
+            name, mid, final, point, result = inputData()
+            
             if result > 50:
                 addFile.write(f"ชื่อ: {name}\nคะแนนกลางภาค: {mid}\nคะแนนปลายภาค: {final}\nคะแนนเก็บ: {point}\nคะแนนรวม {result}\nผลของคะแนนรวมว่าผ่าน\n\n")
                 addFile.close()
@@ -77,7 +73,7 @@ def readData():
 def removeData():
     print("เลือกวิชาและลบไฟล์")
     fileName = os.listdir()
-    if not ".txt" in fileName:
+    if not fileName:
         print("ไม่มีไฟล์ใดๆอยู่เลย")
     else:
         for file in fileName:
