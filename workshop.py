@@ -7,9 +7,6 @@ def inputData():
     result = int(mid) + int(final) + int(point)
     return name, mid, final, point,result
 
-# def checkPassingGrad(mid, final, point):
-#     return result
-
 def createSubject():
     print("สร้างไฟล์วิชาใหม่เพื่อเพิ่มข้อมูล")
     subjectName = input("ป้อนชื่อไฟล์วิชาเพื่อเก็บข้อมูลคะแนน(xxxxx.txt): ").strip()
@@ -18,7 +15,6 @@ def createSubject():
     else:
         newFile = open(subjectName,"w", encoding="utf-8")
         name, mid, final, point, result = inputData()
-        
         if result > 50:
             newFile.write(f"ชื่อ: {name}\nคะแนนกลางภาค: {mid}\nคะแนนปลายภาค: {final}\nคะแนนเก็บ: {point}\nคะแนนรวม {result}\nผลของคะแนนรวมว่าผ่าน\n\n")
             newFile.close()
