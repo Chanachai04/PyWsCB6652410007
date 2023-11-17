@@ -9,9 +9,6 @@ def inputData():
 def checkPassingGrad(mid, final, point):
     result = int(mid) + int(final) + int(point)
     return result
-    
-def isTextFile(fileName):
-    return fileName.lower().endswith(".txt")
 
 def createSubject():
     print("สร้างไฟล์วิชาใหม่เพื่อเพิ่มข้อมูล")
@@ -36,14 +33,14 @@ def createSubject():
                 break
 
 def addData():
-    print("เลือกวิชาและเพิ่มข้อมูลต่อท้ายไฟล์")
     fileName = os.listdir()
-    if not fileName:
+    if not ".txt" in fileName:
         print("ไม่มีไฟล์ใดๆอยู่เลย")
     else:
         for file in fileName:
             if file.endswith(".txt"):
                 print(file)
+        print("เลือกวิชาและเพิ่มข้อมูลต่อท้ายไฟล์")
         select = input("เลือกไฟล์โดยการป้อนชื่อไฟล์: ").strip()
         if select not in fileName:
             print("คุณพิมพ์ชื่อไฟล์ผิด หรือ นามสกุลไฟล์ผิด")
@@ -61,14 +58,14 @@ def addData():
                 print("เพิ่มข้อมูลต่อท้ายไฟล์เรียบร้อยแล้ว")
 
 def readData():
-    print("อ่านข้อมูลในไฟล์")
     fileName = os.listdir()
-    if not fileName:
+    if not ".txt" in fileName:
         print("ไม่มีไฟล์ใดๆอยู่เลย")
     else:
         for file in fileName:
             if file.endswith(".txt"):
                 print(file)
+        print("อ่านข้อมูลในไฟล์")
         select = input("เลือกไฟล์โดยการป้อนชื่อไฟล์: ").strip()
         if select not in fileName:
             print("คุณพิมพ์ชื่อไฟล์ผิด หรือ นามสกุลไฟล์ผิด")
@@ -80,7 +77,7 @@ def readData():
 def removeData():
     print("เลือกวิชาและลบไฟล์")
     fileName = os.listdir()
-    if not fileName:
+    if not ".txt" in fileName:
         print("ไม่มีไฟล์ใดๆอยู่เลย")
     else:
         for file in fileName:
